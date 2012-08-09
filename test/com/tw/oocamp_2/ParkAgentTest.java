@@ -3,13 +3,8 @@ package com.tw.oocamp_2;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Created with IntelliJ IDEA.
- * User: twer
- * Date: 8/8/12
- * Time: 8:22 PM
- * To change this template use File | Settings | File Templates.
- */
+import static junit.framework.Assert.*;
+
 public class ParkAgentTest {
 
     private ParkAgent agent;
@@ -17,24 +12,45 @@ public class ParkAgentTest {
     @Before
     public void setUp(){
         agent = new ParkAgent();
-        Park park1 = new Park(5);
-        Park park2 = new Park(5);
-        agent.addPark(park1, park2);
+        ParkingLot parkingLot1 = new ParkingLot("1",1);
+        ParkingLot parkingLot2 = new ParkingLot("2",1);
+        agent.addPark(parkingLot1, parkingLot2);
     }
 
     @Test
     public void should_park_to_1_when_1_not_full(){
-
+        Car car1 = new Car("1");
+        assertEquals("1:1", agent.park(car1));
     }
 
     @Test
     public void should_park_to_2_when_1_is_full(){
-
+        Car car1 = new Car("1");
+        Car car2 = new Car("2");
+        assertEquals("1:1",agent.park(car1));
+        assertEquals("2:2",agent.park(car2));
     }
 
     @Test
     public void should_fail_when_both_full(){
+        Car car1 = new Car("1");
+        Car car2 = new Car("2");
+        Car car3 = new Car("3");
+        assertEquals("1:1",agent.park(car1));
+        assertEquals("2:2",agent.park(car2));
+        assertNull(agent.park(car3));
+    }
 
+    @Test
+    public void should_pickup_parked_car(){
+        Car car1 = new Car("1");
+        agent.park(car1);
+        assertSame(car1,agent.pickUp("1:1"));
+    }
+
+    @Test
+    public void should_not_pickup_unparked_car(){
+        assertNull(agent.pickUp("1:1"));
     }
 }
 
