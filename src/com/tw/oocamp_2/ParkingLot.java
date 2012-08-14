@@ -21,12 +21,21 @@ public class ParkingLot {
         return null;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
+
     public Car pickUp(String carId) {
         return cars.remove(carId);
     }
 
     public String getId() {
         return id;
+    }
+
+
+    public int getAvailableSize(){
+        return this.capacity - cars.size();
     }
 
 }
